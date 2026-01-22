@@ -1,0 +1,268 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Homework Organizer — Collapsible Sections</title>
+<style>
+  :root{
+    --bg:#f4f4f4;
+    --card:#fff;
+    --accent:#2b8cff;
+    --muted:#6b7280;
+    --radius:8px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background:var(--bg);
+    padding:20px;
+    color:#111;
+  }
+  h1{text-align:center;margin:6px 0 18px}
+  .section{
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:0 2px 6px rgba(0,0,0,0.08);
+    margin:12px 0;
+    overflow:hidden;
+  }
+
+  /* header (clickable) */
+  .section .header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:14px 16px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .section .header .left{display:flex;gap:12px;align-items:center}
+  .dot{
+    width:14px;height:14px;border-radius:4px;display:inline-block;
+  }
+  .dot.ixl{background:#60a5fa}
+  .dot.weekly{background:#34d399}
+  .dot.workbook{background:#fb923c}
+  .dot.spiral{background:#facc15}
+
+  .title{font-weight:700}
+  .subtitle{color:var(--muted);font-size:0.92rem}
+
+  .chev{
+    width:36px;height:36px;border-radius:8px;display:grid;place-items:center;
+    transition:transform .22s ease, background .12s;
+    color:var(--muted);
+  }
+  .chev svg{width:16px;height:16px;stroke:currentColor;stroke-width:2;fill:none}
+
+  /* collapsible content */
+  .details{
+    padding:0 16px 16px 16px;
+    border-top:1px solid rgba(0,0,0,0.04);
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .28s cubic-bezier(.2,.9,.2,1), padding .18s;
+  }
+  .details.open{padding:14px 16px 16px 16px}
+
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px}
+  label{display:block;font-weight:600;margin-bottom:6px;font-size:0.92rem}
+  input[type="text"], input[type="date"], textarea{
+    width:100%;padding:9px;border-radius:8px;border:1px solid #e2e6ea;background:#fff;font-size:0.95rem;
+  }
+  textarea{min-height:70px;resize:vertical}
+  .full{grid-column:1 / -1}
+
+  .actions{display:flex;gap:8px;align-items:center;margin-top:6px}
+  button.save{background:var(--accent);color:#fff;border:0;padding:8px 12px;border-radius:8px;cursor:pointer}
+  button.clear{background:#eef2ff;border:0;padding:8px 12px;border-radius:8px;cursor:pointer;color:var(--accent)}
+
+  .section.open .chev{transform:rotate(180deg);background:rgba(43,140,255,0.06);color:var(--accent)}
+
+  @media (max-width:640px){
+    .row{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<h1>Homework Organizer</h1>
+
+<!-- IXL -->
+<section class="section" data-key="ixl">
+  <div class="header" role="button" aria-expanded="false">
+    <div class="left">
+      <span class="dot ixl" aria-hidden="true"></span>
+      <div>
+        <div class="title">IXL</div>
+        <div class="subtitle">Skill · Goal · Due</div>
+      </div>
+    </div>
+    <div class="chev" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+    </div>
+  </div>
+
+  <div class="details" aria-hidden="true">
+    <div class="row">
+      <div>
+        <label for="ixl-skill">Skill</label>
+        <input id="ixl-skill" class="field" data-field="skill" type="text">
+      </div>
+      <div>
+        <label for="ixl-goal">Goal</label>
+        <input id="ixl-goal" class="field" data-field="goal" type="text">
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label for="ixl-due">Due</label>
+        <input id="ixl-due" class="field" data-field="due" type="date">
+      </div>
+      <div>
+        <label for="ixl-est">Time estimate</label>
+        <input id="ixl-est" class="field" data-field="estimate" type="text" placeholder="e.g., 20 minutes">
+      </div>
+    </div>
+    <div class="row">
+      <div class="full">
+        <label for="ixl-notes">Notes</label>
+        <textarea id="ixl-notes" class="field" data-field="notes"></textarea>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="save">Save</button>
+      <button class="clear">Clear</button>
+    </div>
+  </div>
+</section>
+
+<!-- Weekly Assignments -->
+<section class="section" data-key="weekly">
+  <div class="header" role="button" aria-expanded="false">
+    <div class="left">
+      <span class="dot weekly" aria-hidden="true"></span>
+      <div>
+        <div class="title">Weekly Assignments</div>
+        <div class="subtitle">Assignment · Class · Due</div>
+      </div>
+    </div>
+    <div class="chev" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+    </div>
+  </div>
+
+  <div class="details" aria-hidden="true">
+    <div class="row">
+      <div>
+        <label for="wk-assn">Assignment</label>
+        <input id="wk-assn" class="field" data-field="assignment" type="text">
+      </div>
+      <div>
+        <label for="wk-class">Class</label>
+        <input id="wk-class" class="field" data-field="class" type="text">
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label for="wk-due">Due</label>
+        <input id="wk-due" class="field" data-field="due" type="date">
+      </div>
+      <div>
+        <label for="wk-prio">Priority</label>
+        <input id="wk-prio" class="field" data-field="priority" type="text" placeholder="High / Medium / Low">
+      </div>
+    </div>
+    <div class="row">
+      <div class="full">
+        <label for="wk-steps">Steps to Complete</label>
+        <textarea id="wk-steps" class="field" data-field="steps"></textarea>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="save">Save</button>
+      <button class="clear">Clear</button>
+    </div>
+  </div>
+</section>
+
+<!-- Workbook Pages -->
+<section class="section" data-key="workbook">
+  <div class="header" role="button" aria-expanded="false">
+    <div class="left">
+      <span class="dot workbook" aria-hidden="true"></span>
+      <div>
+        <div class="title">Workbook Pages</div>
+        <div class="subtitle">Subject · Pages · Due</div>
+      </div>
+    </div>
+    <div class="chev" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+    </div>
+  </div>
+
+  <div class="details" aria-hidden="true">
+    <div class="row">
+      <div>
+        <label for="wb-subj">Subject</label>
+        <input id="wb-subj" class="field" data-field="subject" type="text">
+      </div>
+      <div>
+        <label for="wb-pages">Pages</label>
+        <input id="wb-pages" class="field" data-field="pages" type="text" placeholder="e.g., 12-15">
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label for="wb-due">Due</label>
+        <input id="wb-due" class="field" data-field="due" type="date">
+      </div>
+      <div>
+        <label for="wb-notes">Notes</label>
+        <input id="wb-notes" class="field" data-field="notes" type="text">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="save">Save</button>
+      <button class="clear">Clear</button>
+    </div>
+  </div>
+</section>
+
+<!-- Spiral Review -->
+<section class="section" data-key="spiral">
+  <div class="header" role="button" aria-expanded="false">
+    <div class="left">
+      <span class="dot spiral" aria-hidden="true"></span>
+      <div>
+        <div class="title">Spiral Review</div>
+        <div class="subtitle">Topic · Problems · Due</div>
+      </div>
+    </div>
+    <div class="chev" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+    </div>
+  </div>
+
+  <div class="details" aria-hidden="true">
+    <div class="row">
+      <div>
+        <label for="sp-topic">Topic</label>
+        <input id="sp-topic" class="field" data-field="topic" type="text">
+      </div>
+      <div>
+        <label for="sp-prob">Problems</label>
+        <input id="sp-prob" class="field" data-field="problems" type="text" placeholder="e.g., #1-5">
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label for="sp-due">Due</label>
+        <input id="sp-due" class="field" data-field="due" type="date">
+      </div>
+      <div>
+        <label for="sp-notes">Notes</label>
+        
